@@ -1,1 +1,3 @@
 Datetime,Name,Epochs,Description,Accuracy,Precision,Recall,F1
+2024-08-22 15:08:18,model_multiclass_100_CNN_LSTM_2024-08-22.pth,47,"2 layer CNN (32 and 64 output channels) with final 2 Dense Layers (512 and num_classes) result concatenated with 
+ 2 LSTMs (hidden_size=32),  from mfcc with 2 Dense Layers (64 and 16) with a final Lazy Linear layer output of num_classes",0.6341463414634146,0.6488551186467852,0.6611112267362267,0.6378695667148576
