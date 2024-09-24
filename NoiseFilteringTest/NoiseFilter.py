@@ -5,8 +5,83 @@ import numpy as np
 import pydub.silence
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
+import ffmpeg_normalize as normalizer
+import torch
+import noisereduce as nr
+from scipy.io import wavfile
+import pydub
+import os
+#For tools
+from pydub import AudioSegment
+import csv
+
+### Utilities:
+# Utility function to find relative path of file
+def pathfinder (base_path, target_path):
+    relative_path = os.path.relpath(target_path, start=os.path.dirname(base_path))
+    return relative_path
+
+def get_audio_length(audio_path):
+    audio = AudioSegment.from_file(audio_path)
+    return audio.duration_seconds
+
+def convert_to_ms(time):
+    return round(time*1000)
+
+def get_audio_length_average(audio_path, keys):
+    lenghts = []
+    for i, File in enumerate(keys):
+        loc = audio_path + File
+        length=get_audio_length(loc)
+        print(f'File {loc} length: {length}')
+        lenghts.append(length)
+
+    average=np.mean(lenghts)
+    print(f'Average audio length: {average}')
+    return convert_to_ms(average)
+
+def empty_file(csv_file_path):
+    # Read the header (first row) of the CSV file
+    with open(csv_file_path, 'r') as file:
+        reader = csv.reader(file)
+        header = next(reader)  # Read the first row (header)
+    
+    # Write only the header back to the CSV file
+    with open(csv_file_path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(header)  # Wr`ite the header back to the file
+
+### Classes:
+# Class for normalization and denoising of .wav files
+class normalizationAndDenoising():
+    def __init__(self):
+        self.normalizer=normalizer.FFmpegNormalize(normalization_type='ebu', target_level=-23,dual_mono=True)
+        self.device="cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+    
+    def normalize(self, audio_location, new_file_name):
+        self.normalizer.add_media_file(audio_location, new_file_name)
+        self.normalizer.run_normalization()
+
+    def denoise(self, audio_location, new_file_name, noise_location, stationary=True): #default is stationary, false is non-stationary
+        # obtain normalized file
+        self.rate_normal, self.data_normal = wavfile.read(audio_location)
+        #noise profile
+        audio_for_profile = pydub.AudioSegment.from_file(noise_location)
+        _, noise_data = wavfile.read(noise_location) # noise profile, pre-normalized
+        # find noise db and calculate noise threshold
+        threshold=audio_for_profile.dBFS+10
+
+        if stationary:
+            #perform noise reduction
+            reduced_noise = nr.reduce_noise(y=self.data_normal, sr=self.rate_normal, stationary=True, prop_decrease=2.0, freq_mask_smooth_hz=500,device=self.device, n_std_thresh_stationary=200)
+            wavfile.write(new_file_name, self.rate_normal, reduced_noise)
+
+        else:
+            reduced_noise = nr.reduce_noise(y=self.data_normal, sr=self.rate_normal, y_noise=noise_data, stationary=False, prop_decrease=2.0, freq_mask_smooth_hz=500,device=self.device, thresh_n_mult_nonstationary=abs(threshold))
+            wavfile.write(new_file_name, self.rate_normal, reduced_noise)
 
 
+# Class for peak identification in audio files and splitting them into chunks
 class peakIdentification():
     def __init__(self, audio, noise): #audio and noise must be pydub.AudioSegment
         self.audio=audio
@@ -81,7 +156,6 @@ class peakIdentification():
 
         return len(peaks)
 
-    
     def get_silence_length(self, expected_length, rate): #audio must be pydub.AudioSegment
         audio_length=self.audio.duration_seconds*1000 #converted to ms
         silence_length=int(audio_length/expected_length/rate)
