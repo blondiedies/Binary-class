@@ -1,0 +1,2 @@
+Contents of this dataset:
+This is a modified version of the MKA (Multi-keyboard Acoustic) dataset that only includes the raw, pre-processed audio files for several keyboards. This does not include pre-cut segments, just the full audio file, as every other dataset in this project. Limited to the keys used by the custom dataset: ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890, space and enter, not including Ñ.
