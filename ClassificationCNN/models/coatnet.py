@@ -95,7 +95,7 @@ class CoAtNet(nn.Module, BaseEstimator):
 
             val_accuracy = correct / total
             val_accuracies.append(val_accuracy)
-            if (epoch + 1) % 5 == 0:
+            if (epoch + 1) % 1 == 0:
                 print(
                     f"Epoch [{epoch + 1}/{self.num_epochs}], Train Loss: {epoch_train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Accuracy: {val_accuracy:.4f}, Iter Time: {time_taken:.2f}s")
 

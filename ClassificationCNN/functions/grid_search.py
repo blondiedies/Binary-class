@@ -18,4 +18,5 @@ def grid_search(X, y, model):
 
     grid_search = GridSearchCV(model, param_grid, cv=5, scoring=scoring, refit=False, verbose=3)
     grid_search.fit(X, y)
+    return grid_search
 
