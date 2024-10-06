@@ -4,6 +4,8 @@ Based on: https://www.geeksforgeeks.org/audio-classification-using-spectrograms/
 
 Using audio from dataset: https://www.kaggle.com/datasets/lobanovaa/keystroke-datasets/code
 
+And from dataset: https://data.mendeley.com/datasets/bpt2hvf8n3/3
+
 # Custom Audio
 
 For the binary classifier with custom audio, we recorded a series of audio samples. They're available in Dataset-custom-audio.
