@@ -124,6 +124,8 @@ class ToMelSpectrogram:
         start_time = time.time()
         mel_spec = librosa.feature.melspectrogram(y=samples, sr=44100, n_mels=64, n_fft=self.n_fft, hop_length=self.hop_length)
         print(f"Mel spectrogram time: {time.time() - start_time:.4f} seconds")
+
+        mel_spec = librosa.feature.mfcc(S=librosa.power_to_db(mel_spec))
         
         start_time = time.time()
         mel_spec_resized = cv2.resize(mel_spec, (64, 64), interpolation=cv2.INTER_AREA)
