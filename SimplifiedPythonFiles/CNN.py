@@ -236,4 +236,4 @@ def predict_mfcc(dataset, model_path, device_external, keys, num_classes, batch_
             all_preds.append(keys[phrase[i]])
 
     pred_df = pd.DataFrame(all_preds)
-    return pred_df
+    return pred_df, all_preds

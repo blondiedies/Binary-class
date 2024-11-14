@@ -218,12 +218,6 @@ def create_dataset(keys, initial_k, key_length=8820):
         
         # iterate until the number of keystrokes detected is equal to the number of peaks
         print(f'key {key}')
-        while num_keys != peaks_count:
-            k += 0.01 if num_keys > peaks_count else -0.01
-            curr_array=isolator_new(file_path, sr, key_length, k)['res']
-            strokes = [curr['waveform'] for curr in curr_array]
-            num_keys = len(strokes)
-            print(f'k={k:.3f}\tnum_keys={num_keys}')
         print(f'final k={k:.3f}\tnum_keys={num_keys}\tpeaks={peaks_count}')
         print()
         

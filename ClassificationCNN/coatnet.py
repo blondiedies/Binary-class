@@ -221,13 +221,34 @@ class CoAtNet(nn.Module):
 
     def forward(self, x):
         x = self.s0(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after sequential 0")
+        
         x = self.s1(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after sequential 1")
+        
         x = self.s2(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after sequential 2")
+        
         x = self.s3(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after sequential 3")
+        
         x = self.s4(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after sequential 4")
+        
 
         x = self.pool(x).view(-1, x.shape[1])
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after pool")
+        
         x = self.fc(x)
+        if torch.isnan(x).any() or torch.isinf(x).any():
+            print("NaN or Inf detected after fc")
+        
         return x
 
     def _make_layer(self, block, inp, oup, depth, image_size):

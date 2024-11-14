@@ -3,3 +3,5 @@ ClassificationCNN/model_multiclass_100_CNN_LSTM_2024-10-14.pth
 ClassificationCNN/audioDatasetMfcc.pkl
 ClassificationCNN/audioDatasetMfcc.pkl
 ClassificationCNN/model_multiclass_100_CNN_LSTM_2024-10-14.pth
+*.pkl
+*.pth
