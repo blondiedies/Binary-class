@@ -10,6 +10,7 @@ import numpy as np
 
 COLORS = ['blue','red']	
 color_counter=0
+TARGET_LENGTH = 16000 
 
 ### Utilities:
 #Saves model results post-training to a CSV file
@@ -53,8 +54,16 @@ def pathfinder (base_path, target_path):
     relative_path = os.path.relpath(target_path, start=os.path.dirname(base_path))
     return relative_path
 
+# Normalize using minmax scaling
+def normalize_tensor(tensor, min_value=-1, max_value=1):
+    tensor_min = tensor.min()
+    tensor_max = tensor.max()
+    normalized_tensor = (tensor - tensor_min) / (tensor_max - tensor_min)  # Scale to [0, 1]
+    normalized_tensor = normalized_tensor * (max_value - min_value) + min_value  # Scale to [min_value, max_value]
+    return normalized_tensor
+
 # Dataset builder
-def create_dataset(labels, audio_dir, plot=False, extra_samples=500, preffix="", suffix=""):
+def create_dataset(labels, audio_dir, plot=False, preffix="", suffix="", length=TARGET_LENGTH):
     # generate data dictionary
     data_dict = {'Key':[], 'File':[]}
     # generate keys
@@ -72,6 +81,9 @@ def create_dataset(labels, audio_dir, plot=False, extra_samples=500, preffix="",
         chunks, chunks_n = divider.split_audio_at_peaks(plot=plot)
         print(f'File {File} chunks: {chunks_n}')
 
+        #normalizing chunks to target lenght
+        normalized_chunks = [normalize_tensor(chunk) for chunk in chunks]
+
         #add amount to list
         chunks_amount.append(chunks_n)
 
@@ -83,7 +95,7 @@ def create_dataset(labels, audio_dir, plot=False, extra_samples=500, preffix="",
         print(label)
         data_dict['Key'] += label
         print(data_dict['Key'])
-        data_dict['File'] += chunks
+        data_dict['File'] += normalized_chunks
 
     df = pd.DataFrame(data_dict)
     mapper = {}
