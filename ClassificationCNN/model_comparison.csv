@@ -41,3 +41,7 @@ Datetime,Name,Epochs,Description,Accuracy,Precision,Recall,F1
 2024-11-14 16:32:47,audio_dataset_nft_MKA.pkl,1000,"CoAtNetNFT. With patience=100, using time shift, MKA dataset mac",0.3125,0.1118881118881118,0.1818181818181818,0.125
 2024-11-14 18:24:30,audio_dataset_nft_Custom_Denoised_Normalized.pkl,1000,"CoAtNetNFT. With patience=100, using time shift, custom audio dataset",0.25,0.2307692307692307,0.2307692307692307,0.2307692307692307
 2024-11-14 19:48:48,audio_dataset_nft_Binary.pkl,1000,"CoAtNetNFT. With patience=100, using time shift, using Binary dataset. There's an error in the model run which causes NaN or Inf values to appear.",0.0,0.0,0.0,0.0
+2024-11-18 14:12:47,CoAtNetNFT,1000,"CoAtNetNFT. With patience=100, using time shift, MKA dataset, normalizing size.",0.238095238095238,0.0666666666666666,0.0666666666666666,0.0666666666666666
+2024-11-18 15:37:57,CoAtNetNFT,1000,"CoAtNetNFT. With patience=100, using time shift, custom audio dataset,normalizing size.",0.7142857142857143,0.5641025641025641,0.6153846153846154,0.5769230769230769
+2024-11-18 17:15:53,CoAtNetNFT,1000,"CoAtNetNFT. With patience=100, using time shift, dataset-binary- normalizing size.",0.1904761904761904,0.1428571428571428,0.1428571428571428,0.1428571428571428
+2024-12-02 17:38:36,CoAtNetNFT,1000,"With patience=100, using time shift",0.8571428571428571,0.75,0.75,0.75
