@@ -45,3 +45,392 @@ Datetime,Name,Epochs,Description,Accuracy,Precision,Recall,F1
 2024-11-18 15:37:57,CoAtNetNFT,1000,"CoAtNetNFT. With patience=100, using time shift, custom audio dataset,normalizing size.",0.7142857142857143,0.5641025641025641,0.6153846153846154,0.5769230769230769
 2024-11-18 17:15:53,CoAtNetNFT,1000,"CoAtNetNFT. With patience=100, using time shift, dataset-binary- normalizing size.",0.1904761904761904,0.1428571428571428,0.1428571428571428,0.1428571428571428
 2024-12-02 17:38:36,CoAtNetNFT,1000,"With patience=100, using time shift",0.8571428571428571,0.75,0.75,0.75
+2024-12-18 17:52:34,CoAtNetNFT,"(CoAtNetNFT(
+  (model): CoAtNet(
+    (s0): Sequential(
+      (0): Sequential(
+        (0): Conv2d(1, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): GELU(approximate='none')
+      )
+      (1): Sequential(
+        (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): GELU(approximate='none')
+      )
+    )
+    (s1): Sequential(
+      (0): MBConv(
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (proj): Conv2d(64, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (conv): PreNorm(
+          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (fn): Sequential(
+            (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): GELU(approximate='none')
+            (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+            (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): GELU(approximate='none')
+            (6): SE(
+              (avg_pool): AdaptiveAvgPool2d(output_size=1)
+              (fc): Sequential(
+                (0): Linear(in_features=256, out_features=16, bias=False)
+                (1): GELU(approximate='none')
+                (2): Linear(in_features=16, out_features=256, bias=False)
+                (3): Sigmoid()
+              )
+            )
+            (7): Conv2d(256, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (8): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): MBConv(
+        (conv): PreNorm(
+          (norm): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (fn): Sequential(
+            (0): Conv2d(96, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): GELU(approximate='none')
+            (3): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384, bias=False)
+            (4): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): GELU(approximate='none')
+            (6): SE(
+              (avg_pool): AdaptiveAvgPool2d(output_size=1)
+              (fc): Sequential(
+                (0): Linear(in_features=384, out_features=24, bias=False)
+                (1): GELU(approximate='none')
+                (2): Linear(in_features=24, out_features=384, bias=False)
+                (3): Sigmoid()
+              )
+            )
+            (7): Conv2d(384, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (8): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (s2): Sequential(
+      (0): MBConv(
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (proj): Conv2d(96, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (conv): PreNorm(
+          (norm): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (fn): Sequential(
+            (0): Conv2d(96, 384, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): GELU(approximate='none')
+            (3): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=384, bias=False)
+            (4): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): GELU(approximate='none')
+            (6): SE(
+              (avg_pool): AdaptiveAvgPool2d(output_size=1)
+              (fc): Sequential(
+                (0): Linear(in_features=384, out_features=24, bias=False)
+                (1): GELU(approximate='none')
+                (2): Linear(in_features=24, out_features=384, bias=False)
+                (3): Sigmoid()
+              )
+            )
+            (7): Conv2d(384, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (8): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (1): MBConv(
+        (conv): PreNorm(
+          (norm): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (fn): Sequential(
+            (0): Conv2d(192, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): GELU(approximate='none')
+            (3): Conv2d(768, 768, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=768, bias=False)
+            (4): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): GELU(approximate='none')
+            (6): SE(
+              (avg_pool): AdaptiveAvgPool2d(output_size=1)
+              (fc): Sequential(
+                (0): Linear(in_features=768, out_features=48, bias=False)
+                (1): GELU(approximate='none')
+                (2): Linear(in_features=48, out_features=768, bias=False)
+                (3): Sigmoid()
+              )
+            )
+            (7): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (8): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+      (2): MBConv(
+        (conv): PreNorm(
+          (norm): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (fn): Sequential(
+            (0): Conv2d(192, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): GELU(approximate='none')
+            (3): Conv2d(768, 768, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=768, bias=False)
+            (4): BatchNorm2d(768, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (5): GELU(approximate='none')
+            (6): SE(
+              (avg_pool): AdaptiveAvgPool2d(output_size=1)
+              (fc): Sequential(
+                (0): Linear(in_features=768, out_features=48, bias=False)
+                (1): GELU(approximate='none')
+                (2): Linear(in_features=48, out_features=768, bias=False)
+                (3): Sigmoid()
+              )
+            )
+            (7): Conv2d(768, 192, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (8): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+      )
+    )
+    (s3): Sequential(
+      (0): Transformer(
+        (pool1): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (pool2): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (proj): Conv2d(192, 384, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((192,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=192, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=384, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=384, out_features=768, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=768, out_features=384, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+      )
+      (1): Transformer(
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=384, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=384, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=384, out_features=1536, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=1536, out_features=384, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+      )
+      (2): Transformer(
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=384, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=384, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=384, out_features=1536, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=1536, out_features=384, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+      )
+      (3): Transformer(
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=384, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=384, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=384, out_features=1536, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=1536, out_features=384, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+      )
+      (4): Transformer(
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=384, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=384, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=384, out_features=1536, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=1536, out_features=384, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=4, iw=4)
+        )
+      )
+    )
+    (s4): Sequential(
+      (0): Transformer(
+        (pool1): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (pool2): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+        (proj): Conv2d(384, 768, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=384, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=768, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=2, iw=2)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=768, out_features=1536, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=1536, out_features=768, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=2, iw=2)
+        )
+      )
+      (1): Transformer(
+        (attn): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (fn): Attention(
+              (attend): Softmax(dim=-1)
+              (to_qkv): Linear(in_features=768, out_features=768, bias=False)
+              (to_out): Sequential(
+                (0): Linear(in_features=256, out_features=768, bias=True)
+                (1): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=2, iw=2)
+        )
+        (ff): Sequential(
+          (0): Rearrange('b c ih iw -> b (ih iw) c')
+          (1): PreNorm(
+            (norm): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (fn): FeedForward(
+              (net): Sequential(
+                (0): Linear(in_features=768, out_features=3072, bias=True)
+                (1): GELU(approximate='none')
+                (2): Dropout(p=0.0, inplace=False)
+                (3): Linear(in_features=3072, out_features=768, bias=True)
+                (4): Dropout(p=0.0, inplace=False)
+              )
+            )
+          )
+          (2): Rearrange('b (ih iw) c -> b c ih iw', ih=2, iw=2)
+        )
+      )
+    )
+    (pool): AvgPool2d(kernel_size=2, stride=1, padding=0)
+    (fc): Linear(in_features=768, out_features=36, bias=False)
+  )
+), 39)","With patience=100, using time shift",0.8095238095238095,0.5769230769230769,0.6153846153846154,0.5897435897435896
+2024-12-18 18:03:07,CoAtNetNFT,36,"With patience=100, using time shift",0.8947368421052632,0.8,0.8,0.8
+2024-12-18 21:02:17,CoAtNetNFT,40,"With patience=100, using time shift",0.1951219512195122,0.06666666666666667,0.1,0.075

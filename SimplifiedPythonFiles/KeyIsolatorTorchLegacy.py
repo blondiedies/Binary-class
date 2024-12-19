@@ -1,10 +1,6 @@
 # imports
 import matplotlib.pyplot as plt
 import librosa
-import numpy as np
-import array
-from pydub import AudioSegment, silence
-from collections import deque
 from detecta import detect_peaks
 import pyloudnorm as pyln
 import pandas as pd
@@ -63,11 +59,12 @@ def isolator(signal, sample_rate, n_fft, hop_length, before, after, threshold, s
     return peaks, strokes, timestamps
 
 # Creating dataset
-def create_dataset(labels, file_dir, prefix, suffix, show=False):
+def create_dataset(labels, file_dir, prefix, suffix, show=False, n_fft=2048, hop_length=512, before=2205, after=2205, threshold=0.1):
     data_dict = {'Key': [], 'File': []}
     # generate keys
     keys = [prefix + k + suffix + '.wav' for k in labels]
     # For each key marked in keys, we'll isolate the keystrokes and add them to the data dictionary
+    
     for i, File in enumerate(keys):
 
         # Path to audio file corresponding to current audio key.
@@ -77,14 +74,16 @@ def create_dataset(labels, file_dir, prefix, suffix, show=False):
         samples, sr = librosa.load(file_path, sr=44100)
         samples = torch.tensor(samples)
 
-        # Implement isolator function here
-        _, strokes, _ = isolator(samples, sr, n_fft=2048, hop_length=512, before=2205, after=2205, threshold=0.1, show=show)
+        # Isolator function
+        _, strokes, _ = isolator(samples, sr, n_fft=n_fft,hop_length=hop_length,before=before, after=after,threshold=threshold, show=show)
         num_keys = len(strokes)
 
         # add keys to dictionary
         label = [labels[i]] * num_keys
         data_dict['Key'] += label
         data_dict['File'] += strokes
+
+        print(f'Key: {labels[i]} | Number of keystrokes: {num_keys}')
     
     # Convert complete dictionary to dataframe
     df = pd.DataFrame(data_dict)
