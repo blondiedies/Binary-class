@@ -97,3 +97,24 @@ def create_dataset(labels, file_dir, prefix, suffix, show=False, n_fft=2048, hop
     df.replace({'Key': mapper}, inplace=True)
     
     return df
+
+# split individual audio
+def process_ind_audio(file_dir, filename, threshold, show=False, n_fft=2048, hop_length=512, before=2205, after=2205):
+    #we just need to isolate each key and add it to a list, regardless of labels
+    # Path to audio file corresponding to current audio key.
+    file_path = file_dir + filename
+    print(f'path: {file_path}')
+    # Generate samples
+    samples, sr = librosa.load(file_path, sr=44100)
+    samples = torch.tensor(samples)
+    #audio_length = len(samples) / sr
+    #threshold=audio_length*0.01/8
+    print(f"threshold: {threshold}")
+
+    # Isolator function
+    _, strokes, _ = isolator(samples, sr, n_fft=n_fft,hop_length=hop_length,before=before, after=after,threshold=threshold, show=show)
+    num_keys = len(strokes)
+
+    print(f'Number of keystrokes: {num_keys}')
+    
+    return strokes
