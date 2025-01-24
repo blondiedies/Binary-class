@@ -59,11 +59,15 @@ def isolator(signal, sample_rate, n_fft, hop_length, before, after, threshold, s
     return peaks, strokes, timestamps
 
 # Creating dataset
-def create_dataset(labels, file_dir, prefix, suffix, show=False, n_fft=2048, hop_length=512, before=2205, after=2205, threshold=0.1):
+def create_dataset(labels, file_dir, prefix, suffix, noise_level, show=False, n_fft=2048, hop_length=512, before=2205, after=2205, threshold=0.1):
     data_dict = {'Key': [], 'File': []}
     # generate keys
     keys = [prefix + k + suffix + '.wav' for k in labels]
     # For each key marked in keys, we'll isolate the keystrokes and add them to the data dictionary
+
+    # Load noise profile
+    noise_profile, _ = librosa.load("Dataset-custom-audio\audio-standby-files\noise-profile\Noise.wav", sr=44100)
+    noise_profile = torch.tensor(noise_profile)
     
     for i, File in enumerate(keys):
 
@@ -74,8 +78,12 @@ def create_dataset(labels, file_dir, prefix, suffix, show=False, n_fft=2048, hop
         samples, sr = librosa.load(file_path, sr=44100)
         samples = torch.tensor(samples)
 
+        # Add noise to the samples
+        noise = noise_profile[torch.randint(0, len(noise_profile), (len(samples),))]
+        signal_noise = samples + noise_level * noise
+
         # Isolator function
-        _, strokes, _ = isolator(samples, sr, n_fft=n_fft,hop_length=hop_length,before=before, after=after,threshold=threshold, show=show)
+        _, strokes, _ = isolator(signal_noise, sr, n_fft=n_fft,hop_length=hop_length,before=before, after=after,threshold=threshold, show=show)
         num_keys = len(strokes)
 
         # add keys to dictionary
