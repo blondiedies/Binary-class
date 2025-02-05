@@ -8,11 +8,13 @@ import torch
 
 # Supporting Functions
 
+
 # Waveform plotting function
 def disp_waveform(signal, title='', sr=None, color='blue'):
     plt.figure(figsize=(7, 2))
     plt.title(title)
     return librosa.display.waveshow(signal.numpy(), sr=sr, color=color)
+
 
 # Peak counter
 def count_peaks(samples, key_length=14400):
@@ -21,6 +23,7 @@ def count_peaks(samples, key_length=14400):
     return len(indexes)
 
 # Isolator functions
+
 
 # Isolator - Legacy functionality
 def isolator(signal, sample_rate, n_fft, hop_length, before, after, threshold, show=False):
@@ -57,6 +60,7 @@ def isolator(signal, sample_rate, n_fft, hop_length, before, after, threshold, s
                     disp_waveform(keystroke, title=f'keystroke {len(strokes)}', sr=sample_rate)
                 prev_end = timestamp + after
     return peaks, strokes, timestamps
+
 
 # Creating dataset
 def create_dataset(labels, file_dir, prefix, suffix, noise_level, show=False, n_fft=2048, hop_length=512, before=2205, after=2205, threshold=0.1):
