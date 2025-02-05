@@ -211,11 +211,16 @@ class CoAtNet(nn.Module):
             block[block_types[0]], channels[0], channels[1], num_blocks[1], (ih // 4, iw // 4))
         self.s2 = self._make_layer(
             block[block_types[1]], channels[1], channels[2], num_blocks[2], (ih // 8, iw // 8))
-        self.s3 = self._make_layer(
-            block[block_types[2]], channels[2], channels[3], num_blocks[3], (ih // 16, iw // 16))
-        self.s4 = self._make_layer(
-            block[block_types[3]], channels[3], channels[4], num_blocks[4], (ih // 32, iw // 32))
-
+        if len(channels) >= 4 and len(block_types) >= 3 and len(num_blocks) >= 4:
+            self.s3 = self._make_layer(
+                block[block_types[2]], channels[2], channels[3], num_blocks[3], (ih // 16, iw // 16))
+        else:
+            self.s3 = None
+        if len(channels) >= 5 and len(block_types) >= 4 and len(num_blocks) >= 5:
+            self.s4 = self._make_layer(
+                block[block_types[3]], channels[3], channels[4], num_blocks[4], (ih // 32, iw // 32))
+        else:
+            self.s4 = None
         self.pool = nn.AvgPool2d(ih // 32, 1)
         self.fc = nn.Linear(channels[-1], num_classes, bias=False)
 
@@ -231,20 +236,23 @@ class CoAtNet(nn.Module):
         x = self.s2(x)
         if torch.isnan(x).any() or torch.isinf(x).any():
             print("NaN or Inf detected after sequential 2")
-        
-        x = self.s3(x)
-        if torch.isnan(x).any() or torch.isinf(x).any():
-            print("NaN or Inf detected after sequential 3")
-        
-        x = self.s4(x)
-        if torch.isnan(x).any() or torch.isinf(x).any():
-            print("NaN or Inf detected after sequential 4")
-        
 
-        x = self.pool(x).view(-1, x.shape[1])
+        if self.s3:
+            x = self.s3(x)
+            if torch.isnan(x).any() or torch.isinf(x).any():
+                print("NaN or Inf detected after sequential 3")
+
+        if self.s4:
+            x = self.s4(x)
+            if torch.isnan(x).any() or torch.isinf(x).any():
+                print("NaN or Inf detected after sequential 4")
+
+        print(f'Before pooling:{x.shape}')
+        x = (self.pool(x).view(-1, x.shape[1]))
+        print(f'After pooling:{x.shape}')
         if torch.isnan(x).any() or torch.isinf(x).any():
             print("NaN or Inf detected after pool")
-        
+
         x = self.fc(x)
         if torch.isnan(x).any() or torch.isinf(x).any():
             print("NaN or Inf detected after fc")
