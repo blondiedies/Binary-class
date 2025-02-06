@@ -205,6 +205,8 @@ class CoAtNet(nn.Module):
         ih, iw = image_size
         block = {'C': MBConv, 'T': Transformer}
 
+        downsample_factor = 2 ** len(channels)
+
         self.s0 = self._make_layer(
             conv_3x3_bn, in_channels, channels[0], num_blocks[0], (ih // 2, iw // 2))
         self.s1 = self._make_layer(
@@ -221,7 +223,8 @@ class CoAtNet(nn.Module):
                 block[block_types[3]], channels[3], channels[4], num_blocks[4], (ih // 32, iw // 32))
         else:
             self.s4 = None
-        self.pool = nn.AvgPool2d(ih // 32, 1)
+        final_size = ih // downsample_factor
+        self.pool = nn.AvgPool2d(final_size, 1)
         self.fc = nn.Linear(channels[-1], num_classes, bias=False)
 
     def forward(self, x):
@@ -247,9 +250,10 @@ class CoAtNet(nn.Module):
             if torch.isnan(x).any() or torch.isinf(x).any():
                 print("NaN or Inf detected after sequential 4")
 
-        print(f'Before pooling:{x.shape}')
+        # print(f'Before pooling:{x.shape}')
         x = (self.pool(x).view(-1, x.shape[1]))
-        print(f'After pooling:{x.shape}')
+        # x = self.pool(x).view(x.size(0), -1)
+        # print(f'After pooling:{x.shape}')
         if torch.isnan(x).any() or torch.isinf(x).any():
             print("NaN or Inf detected after pool")
 
