@@ -250,10 +250,7 @@ class CoAtNet(nn.Module):
             if torch.isnan(x).any() or torch.isinf(x).any():
                 print("NaN or Inf detected after sequential 4")
 
-        # print(f'Before pooling:{x.shape}')
         x = (self.pool(x).view(-1, x.shape[1]))
-        # x = self.pool(x).view(x.size(0), -1)
-        # print(f'After pooling:{x.shape}')
         if torch.isnan(x).any() or torch.isinf(x).any():
             print("NaN or Inf detected after pool")
 
@@ -271,61 +268,3 @@ class CoAtNet(nn.Module):
             else:
                 layers.append(block(oup, oup, image_size))
         return nn.Sequential(*layers)
-
-
-def coatnet_0():
-    num_blocks = [2, 2, 3, 5, 2]  # L
-    channels = [64, 96, 192, 384, 768]  # D
-    return CoAtNet((224, 224), 3, num_blocks, channels, num_classes=1000)
-
-
-def coatnet_1():
-    num_blocks = [2, 2, 6, 14, 2]  # L
-    channels = [64, 96, 192, 384, 768]  # D
-    return CoAtNet((224, 224), 3, num_blocks, channels, num_classes=1000)
-
-
-def coatnet_2():
-    num_blocks = [2, 2, 6, 14, 2]  # L
-    channels = [128, 128, 256, 512, 1026]  # D
-    return CoAtNet((224, 224), 3, num_blocks, channels, num_classes=1000)
-
-
-def coatnet_3():
-    num_blocks = [2, 2, 6, 14, 2]  # L
-    channels = [192, 192, 384, 768, 1536]  # D
-    return CoAtNet((224, 224), 3, num_blocks, channels, num_classes=1000)
-
-
-def coatnet_4():
-    num_blocks = [2, 2, 12, 28, 2]  # L
-    channels = [192, 192, 384, 768, 1536]  # D
-    return CoAtNet((224, 224), 3, num_blocks, channels, num_classes=1000)
-
-
-def count_parameters(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-
-if __name__ == '__main__':
-    img = torch.randn(1, 3, 224, 224)
-
-    net = coatnet_0()
-    out = net(img)
-    print(out.shape, count_parameters(net))
-
-    net = coatnet_1()
-    out = net(img)
-    print(out.shape, count_parameters(net))
-
-    net = coatnet_2()
-    out = net(img)
-    print(out.shape, count_parameters(net))
-
-    net = coatnet_3()
-    out = net(img)
-    print(out.shape, count_parameters(net))
-
-    net = coatnet_4()
-    out = net(img)
-    print(out.shape, count_parameters(net))
